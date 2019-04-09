@@ -55,7 +55,7 @@ public class DashboardPage {
 		getLogoutButton(driver).click();
 	}
 
-	// NALAZI DUGME BROWSE NA PROZORU ZA UNOS PODATAKA ZA PRAVLJENJE NOVOG POSTA
+	// NALAZI DUGME BROWSE NA PROZORU ZA UNOS PODATAKA (fotografije) ZA PRAVLJENJE NOVOG POSTA
 	public static WebElement getBrowseButton(WebDriver driver) {
 		WebElement element = driver.findElement(BROWSE_BUTTON);
 		return element;
