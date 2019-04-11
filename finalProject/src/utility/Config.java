@@ -1,7 +1,5 @@
 package utility;
 
-//KONFIGURACIONA KLASA U KOJOJ SE NALAZE STATICKE KONSTANTE KOJE SE KORISTE U SVIM KLASAMA PROJEKTA.
-
 public class Config {
 	
 	    public static final String URL_HOME="http://localhost/izlet/";

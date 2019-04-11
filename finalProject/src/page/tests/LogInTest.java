@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import page.objects.DashboardPage;
-import page.objects.MainPage;
+import page.objects.RegLogPage;
 import start.GUImain;
 import utility.Config;
 import utility.ExcelUtils;
@@ -17,9 +17,6 @@ import utility.ExcelUtils;
 
 
 public class LogInTest {
-	
-//METODA ZA MANUELNO TESTIRANJE LOGIN FUNKCIJE SAJTA. 
-//NAJPRE SALJE ZAHTEV ZA REGISTRACIJU, ONDA SA ISTIM PODACIMA POKUSAVA DA SE ULOGUJE I NA KRAJU SALJE IZVESTAJ O USPESNOSTI TESTA
 	
 	public static void logIn() throws Exception {
 		Scanner sc = new Scanner(System.in);
@@ -38,27 +35,27 @@ public class LogInTest {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-		MainPage.openPage(driver, Config.URL_HOME);
+		RegLogPage.openPage(driver, Config.URL_HOME);
 		
-		MainPage.sendKeys(driver, MainPage.FIRST_NAME_REG, firstName);
+		RegLogPage.sendKeys(driver, RegLogPage.FIRST_NAME_REG, firstName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.LAST_NAME_REG, lastName);
+		RegLogPage.sendKeys(driver, RegLogPage.LAST_NAME_REG, lastName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.USER_NAME_REG, userName);
+		RegLogPage.sendKeys(driver, RegLogPage.USER_NAME_REG, userName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.EMAIL_REG, email);
+		RegLogPage.sendKeys(driver, RegLogPage.EMAIL_REG, email);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.PASSWORD_REG, password);
+		RegLogPage.sendKeys(driver, RegLogPage.PASSWORD_REG, password);
 		Thread.sleep(1000);
-		MainPage.clickRegister(driver);
+		RegLogPage.clickRegister(driver);
 		Thread.sleep(3000);
 
-		MainPage.sendKeys(driver, MainPage.USER_NAME, userName);
+		RegLogPage.sendKeys(driver, RegLogPage.USER_NAME, userName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.PASSWORD, password);
+		RegLogPage.sendKeys(driver, RegLogPage.PASSWORD, password);
 		Thread.sleep(1000);
 
-		MainPage.clickLogIn(driver);
+		RegLogPage.clickLogIn(driver);
 
 		if (driver.getCurrentUrl().contains(Config.URL_DASHBOARD)) {
 			System.out.println("PASS");
@@ -68,9 +65,7 @@ public class LogInTest {
 		DashboardPage.clickLogoutButton(driver);
 		sc.close();
 		driver.close();
-	}
-	
-	// GUI METODA ZA TESTIRANJE LOG IN FUNKCIONALNOSTI SAJTA 
+	} 
 	
 	public static void logInGUI() throws Exception {
 
@@ -89,7 +84,7 @@ public class LogInTest {
 		do {
 			emailaddress = (String) JOptionPane.showInputDialog(frame, "Enter email address ex:xyz@gmail.com",
 					JOptionPane.INPUT_VALUE_PROPERTY);
-			// OBEZBEDJIVANJE PRAVILNOG UNOSA EMAIL ADRESE.
+			
 			String email_regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 			b = emailaddress.matches(email_regex);
@@ -101,7 +96,7 @@ public class LogInTest {
 			password = (String) JOptionPane.showInputDialog(frame,
 					"Enter password which must contains 6 to 20 characters string with at least one digit, one upper case letter, one lower case letter and one special symbol (“@#$%?!”)",
 					JOptionPane.INPUT_VALUE_PROPERTY);
-			// OBEZBEDJIVANJE PRAVILNOG UNOSA PASSWORD-a.
+			
 			String password_regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%?!]).{6,20})";
 			bp = password.matches(password_regex);
 		} while (!bp);
@@ -110,27 +105,27 @@ public class LogInTest {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-		MainPage.openPage(driver, Config.URL_HOME);
+		RegLogPage.openPage(driver, Config.URL_HOME);
 
-		MainPage.sendKeys(driver, MainPage.FIRST_NAME_REG, firstName);
+		RegLogPage.sendKeys(driver, RegLogPage.FIRST_NAME_REG, firstName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.LAST_NAME_REG, lastName);
+		RegLogPage.sendKeys(driver, RegLogPage.LAST_NAME_REG, lastName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.USER_NAME_REG, userName);
+		RegLogPage.sendKeys(driver, RegLogPage.USER_NAME_REG, userName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.EMAIL_REG, emailaddress);
+		RegLogPage.sendKeys(driver, RegLogPage.EMAIL_REG, emailaddress);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.PASSWORD_REG, password);
+		RegLogPage.sendKeys(driver, RegLogPage.PASSWORD_REG, password);
 		Thread.sleep(1000);
-		MainPage.clickRegister(driver);
+		RegLogPage.clickRegister(driver);
 		Thread.sleep(3000);
 
-		MainPage.sendKeys(driver, MainPage.USER_NAME, userName);
+		RegLogPage.sendKeys(driver, RegLogPage.USER_NAME, userName);
 		Thread.sleep(1000);
-		MainPage.sendKeys(driver, MainPage.PASSWORD, password);
+		RegLogPage.sendKeys(driver, RegLogPage.PASSWORD, password);
 		Thread.sleep(1000);
 
-		MainPage.clickLogIn(driver);
+		RegLogPage.clickLogIn(driver);
 
 		if (driver.getCurrentUrl().contains(Config.URL_DASHBOARD)) {
 			System.out.println("PASS");
@@ -139,9 +134,7 @@ public class LogInTest {
 
 		DashboardPage.clickLogoutButton(driver);
 		driver.close();
-	}
-	
-	//METODA ZA TESTIRANJE LOGIN FUNKCIJE SAJTA UCITAVANJEM PODATAKA ZA JEDNOG KORISNIKA IZ PRILOZENE EXCEL TABELE 
+	} 
 
 	public static void logInExcel() throws Exception {
 
@@ -149,32 +142,29 @@ public class LogInTest {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-		MainPage.openPage(driver, Config.URL_HOME);
+		RegLogPage.openPage(driver, Config.URL_HOME);
 
 		String data;
 		ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME);
 
 		data = ExcelUtils.getCellData(1, 2);
-		MainPage.sendKeys(driver, MainPage.USER_NAME, data);
+		RegLogPage.sendKeys(driver, RegLogPage.USER_NAME, data);
 		Thread.sleep(1000);
 
 		data = ExcelUtils.getCellData(1, 4);
-		MainPage.sendKeys(driver, MainPage.PASSWORD, data);
+		RegLogPage.sendKeys(driver, RegLogPage.PASSWORD, data);
 		Thread.sleep(1000);
 
-		MainPage.clickLogIn(driver);
+		RegLogPage.clickLogIn(driver);
 
 	}
-	
-	//METODA ZA TESTIRANJE LOGIN FUNKCIJE SAJTA UCITAVANJEM PODATAKA SVIH KORISNIKA IZ PRILOZENE EXCEL TABELE 
-	//METODA SA UCITANIM PODACIMA POKUSAVA DA SE ULOGUJE I NA KRAJU SALJE IZVESTAJ O USPESNOSTI TESTA ZA SVAKOG KORISNIKA PONAOSOB
 
 	public static void logInExcelAll() {
 
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		MainPage.openPage(driver, Config.URL_HOME);
+		RegLogPage.openPage(driver, Config.URL_HOME);
 
 		String data;
 
@@ -186,14 +176,14 @@ public class LogInTest {
 			for (int i = 1; i <= rowcount; i++) {
 
 				data = ExcelUtils.getCellData(i, 2);
-				MainPage.sendKeys(driver, MainPage.USER_NAME, data);
+				RegLogPage.sendKeys(driver, RegLogPage.USER_NAME, data);
 				Thread.sleep(1000);
 
 				data = ExcelUtils.getCellData(i, 4);
-				MainPage.sendKeys(driver, MainPage.PASSWORD, data);
+				RegLogPage.sendKeys(driver, RegLogPage.PASSWORD, data);
 				Thread.sleep(1000);
 
-				MainPage.clickLogIn(driver);
+				RegLogPage.clickLogIn(driver);
 				Thread.sleep(2000);
 				String testStatus;
 				if (driver.getCurrentUrl().contains(Config.URL_DASHBOARD)) {
@@ -201,7 +191,7 @@ public class LogInTest {
 				} else {
 					testStatus = "FAIL";
 					ExcelUtils.setCellData(testStatus, i, 5);
-					MainPage.openPage(driver, Config.URL_HOME);
+					RegLogPage.openPage(driver, Config.URL_HOME);
 					continue;
 				}
 								driver.close();

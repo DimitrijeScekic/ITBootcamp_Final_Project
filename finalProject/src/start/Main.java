@@ -6,24 +6,22 @@ import page.tests.DashboardPageTest;
 import page.tests.LogInTest;
 import page.tests.RegistrationTest;
 
-public class Main { 
+public class Main {
 
 	public static void main(String[] args) throws Exception {
-		
-		// WHILE PETLJA KOJA TREBA DA OBEZBIJEDI PONAVLJANJE ZAHTEVA ZA UNOS SVE DOK SE NE UNESE DOZVOLJENA VRIJEDNOST
+
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			System.out.println(" \n                                     Web-site IZLET Testing: \n ");
 			System.out.println(
 					" Type: logInTest or registrationTest or makeNewPostTest or deleteTwoLastPostTest or editLastPostTest ");
 
-			String test = sc.nextLine().toUpperCase();            // PRETVARA ZVA SLOVA U VELIKA
-			test = test.replaceAll("\\s", "");                   // BRISE SVA PRAZNA POLJA U STRINGU
-			
+			String test = sc.nextLine().toUpperCase();
+			test = test.replaceAll("\\s", "");
+
 			switch (test) {
 
 			case "LOGINTEST":
-				// WHILE PETLJA KOJA TREBA DA OBEZBIJEDI PONAVLJANJE ZAHTEVA ZA UNOS SVE DOK SE NE UNESE DOZVOLJENA VRIJEDNOST
 				while (true) {
 					System.out.println("Type MANUAL or AUTOMATIC ");
 					String option = sc.nextLine().toUpperCase();
@@ -39,7 +37,6 @@ public class Main {
 				}
 
 			case "REGISTRATIONTEST":
-				// WHILE PETLJA KOJA TREBA DA OBEZBIJEDI PONAVLJANJE ZAHTEVA ZA UNOS SVE DOK SE NE UNESE DOZVOLJENA VRIJEDNOST
 				while (true) {
 					System.out.println("Type MANUAL or AUTOMATIC ");
 					String option2 = sc.nextLine().toUpperCase();
@@ -55,7 +52,6 @@ public class Main {
 				}
 
 			case "MAKENEWPOSTTEST":
-				// WHILE PETLJA KOJA TREBA DA OBEZBIJEDI PONAVLJANJE ZAHTEVA ZA UNOS SVE DOK SE NE UNESE DOZVOLJENA VRIJEDNOST
 				while (true) {
 					System.out.println("Type MANUAL or AUTOMATIC ");
 					String option3 = sc.nextLine().toUpperCase();

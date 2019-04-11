@@ -9,20 +9,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-//U OVOJ KLASI NALAZE SE STATICKE PROMENJIVE TYPA By KOJE SU USTVARI PUTANJE KA ELEMENTIMA DASHBOARD STRANICE SAJTA IZLET.
-//TAKODJE, TU SU I POMOCNE METODE ZA PRISTUPANJE I SELEKTOVANJE POMENUTIH ELEMENATA, KAO I ZA SLANJE VREDNOSTI ISTIMA
-//KORISTI SE TESTIRANJE FUNKCIONALNOSTI DASHBOARD STRANICE
 
 public class DashboardPage {	
 	
-	// ODABIR ELEMENATA NA STRANICI
 	public static WebElement getElement(WebDriver driver, By element) {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		WebElement wb = wait.until(ExpectedConditions.elementToBeClickable(element));
 		return wb;
 	}
 
-	// SLANJE VREDNOSTI U ODABRANI ELEMENT STRANICE
 	public static void sendKeys(WebDriver driver, By element, String value) {
 		getElement(driver, element).sendKeys(value);
 		;
@@ -55,7 +50,6 @@ public class DashboardPage {
 		getLogoutButton(driver).click();
 	}
 
-	// NALAZI DUGME BROWSE NA PROZORU ZA UNOS PODATAKA ZA PRAVLJENJE NOVOG POSTA
 	public static WebElement getBrowseButton(WebDriver driver) {
 		WebElement element = driver.findElement(BROWSE_BUTTON);
 		return element;
@@ -74,7 +68,7 @@ public class DashboardPage {
 		getTravelType(driver).click();
 
 	}
-	// SELEKTUJE TIP PREVOZNOG SREDSTVA U PROZORU ZA UNOS PODATAKA ZA PRAVLJENJE NOVOG POSTA
+
 	public static void setTravelType(WebDriver driver, String input) {
 		Select travelType = new Select(driver.findElement(TRAVEL_TYPE));
 		travelType.selectByVisibleText(input);
@@ -89,13 +83,13 @@ public class DashboardPage {
 		List<WebElement> menu = driver.findElements(MENU_POST_BUTTON);
 		menu.get(0).click();
 	}
-	// SELEKTUJE PRVI POST U DASHBOARD-U
+
 	public static void editPostButton(WebDriver driver) {
 		postMenuButton(driver);
 		List<WebElement> edit = driver.findElements(EDIT_POST_BUTTON);
 		edit.get(0).click();
 	}
-	// BRISE STARU I UNOSI NOVU VREDNOST ZA OPIS U EDITOVANOM POSTU
+	
 	public static void editPostDescription(WebDriver driver, String value) {
 		WebElement element = driver.findElement(TRAVEL_DESCRIPTION_CHANGE);
 			element.clear();
@@ -110,7 +104,7 @@ public class DashboardPage {
 	public static void clickPostChangeSave(WebDriver driver) {
 		getPostChangeSave(driver).click();
 	}
-	// BRISE PRVI POST U DASHBOARD-U
+	
 	public static void deletePostButton(WebDriver driver) {
 		postMenuButton(driver);
 		List<WebElement> delete = driver.findElements(DELETE_POST_BUTTON);

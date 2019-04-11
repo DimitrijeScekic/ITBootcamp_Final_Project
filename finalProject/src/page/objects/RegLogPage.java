@@ -4,11 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-// U OVOJ KLASI NALAZE SE STATICKE PROMENJIVE TYPA By KOJE SU USTVARI PUTANJE KA ELEMENTIMA POCETNE STRANICE SAJTA IZLET.
-// TAKODJE, TU SU I POMOCNE METODE ZA PRISTUPANJE I SELEKTOVANJE POMENUTIH ELEMENATA, KAO I ZA SLANJE VREDNOSTI ISTIMA
-// KORISTI SE ZA REGISTRATION I LOGIN TESTIRANJE
+// It's used to testing registration and login functionality of the site
 
-public class MainPage {
+public class RegLogPage {
 	
 	public static void openPage(WebDriver driver, String address) {
 		driver.get(address);
@@ -18,13 +16,12 @@ public class MainPage {
 		driver.navigate().to(address);
 	}
 	
-	// ODABIR ELEMENATA NA STRANICI
+
     public static WebElement getElement (WebDriver driver, By element) {
         WebElement wb=driver.findElement(element);
         return wb;
     }
         
- // SLANJE VREDNOSTI U ODABRANI ELEMENT STRANICE
     public static void sendKeys (WebDriver driver, By element, String data) {
         getElement(driver,element).sendKeys(data);;
        }
