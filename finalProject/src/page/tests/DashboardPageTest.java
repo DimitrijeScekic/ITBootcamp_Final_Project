@@ -3,11 +3,14 @@ package page.tests;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import page.objects.DashboardPage;
 import page.objects.MainPage;
+import start.GUImain;
 import utility.Config;
 import utility.ExcelUtils;
 
@@ -83,6 +86,72 @@ public class DashboardPageTest {
 		}
 	}
 
+	// GUI METODA ZA TESTIRANJE FUNKCIONALNOSTI PRAVLJENJA NOVOG POSTA NA SAJTU 
+	
+	public static void makeNewPostGUI() throws InterruptedException {
+		
+		GUImain frame = new GUImain();
+
+		String postName = (String) JOptionPane.showInputDialog(frame, "Enter post name:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		String location = (String) JOptionPane.showInputDialog(frame, "Enter location:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		//String imagePath = (String) JOptionPane.showInputDialog(frame, "Enter path for image:",
+				//JOptionPane.INPUT_VALUE_PROPERTY);
+		
+		String type;
+		// WHILE PETLJA KOJA TREBA DA OBEZBIJEDI PONAVLJANJE ZAHTEVA ZA UNOS SVE DOK SE NE UNESE DOZVOLJENA VRIJEDNOST
+		while(true) {
+		String travelType = (String) JOptionPane.showInputDialog(frame, "Enter travel type: Bicycle,Walk,Car,Motorbike or Bus",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		type = travelType.toLowerCase();
+		if(type.equals("bicycle") || type.equals("walk") || type.equals("motorbike") || type.equals("bus") || type.equals("car") )
+		// VRACA NAZIV PREVOZNOG SREDSTVA SA POCETNIM VELIKIM I OSTALIM MALIM SLOVIMA BEZ OBZIRA NA NACIN UNOSA
+		type = type.substring(0,1).toUpperCase() + type.substring(1).toLowerCase();  
+		else {
+		continue;
+		}
+		break;
+	}
+		String description = (String) JOptionPane.showInputDialog(frame, "Enter description text:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		try {
+
+			MainPage.openPage(driver, Config.URL_HOME);
+
+			String data;
+			ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME);
+
+			data = ExcelUtils.getCellData(1, 2);
+			MainPage.sendKeys(driver, MainPage.USER_NAME, data);
+			Thread.sleep(1000);
+
+			data = ExcelUtils.getCellData(1, 4);
+			MainPage.sendKeys(driver, MainPage.PASSWORD, data);
+			Thread.sleep(1000);
+
+			MainPage.clickLogIn(driver);
+
+			DashboardPage.clickMakePostButton(driver);
+			DashboardPage.sendKeys(driver, DashboardPage.POST_NAME, postName);
+			DashboardPage.sendKeys(driver, DashboardPage.TRAVEL_LOCATION, location);
+		//	DashboardPage.insertFiles(driver, imagePath);
+			DashboardPage.getTravelType(driver);
+			DashboardPage.setTravelType(driver, type);
+			DashboardPage.sendKeys(driver, DashboardPage.TRAVEL_DESCRIPTION, description);
+			DashboardPage.clickSavePostButton(driver);
+			
+			driver.close();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+	}
 	//METODA ZA AUTOMATSKO TESTIRANJE FUNKCIJE PRAVLJENJA NOVOG POSTA STRANICE UCITAVANJEM TRAZENIH PODATAKA IZ PRILOZENOG EXCEL FAJLA NASUMICNIM ODABIROM
 	
 	public static void makeNewPostExcel() throws Exception {
@@ -127,6 +196,44 @@ public class DashboardPageTest {
 		driver.close();
 	}
 
+	// GUI METODA ZA TESTIRANJE FUNKCIONALNOSTI BRISANJA POSLEDNJEG POSTA NA SAJTU 
+	
+	public static void editLastPostExcelGUI() throws Exception {
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		MainPage.openPage(driver, Config.URL_HOME);
+
+		String data;
+		ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME);
+
+		data = ExcelUtils.getCellData(1, 2);
+		MainPage.sendKeys(driver, MainPage.USER_NAME, data);
+		Thread.sleep(1000);
+
+		data = ExcelUtils.getCellData(1, 4);
+		MainPage.sendKeys(driver, MainPage.PASSWORD, data);
+		Thread.sleep(1000);
+
+		MainPage.clickLogIn(driver);
+
+		DashboardPage.editPostButton(driver);
+
+		ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME2);
+
+		int size = 100;
+		int rando = (int) (Math.random() * (size + 1)); // METODA ZA NASUMICNI ODABIR
+        data = ExcelUtils.getCellData(rando, 0);
+		DashboardPage.editPostDescription(driver,data);
+		//DashboardPage.sendKeys(driver, DashboardPage.TRAVEL_DESCRIPTION, data);
+		DashboardPage.clickPostChangeSave(driver);
+		DashboardPage.clickLogoutButton(driver);
+		driver.close();
+	}
+	
+	
 	//METODA ZA MANUELNO TESTIRANJE FUNKCIJE NAKNADNOG MENJANJA POSTA STRANICE UCITAVANJEM TRAZENIH PODATAKA SA SKENERA
 	
 	public static void editLastPost() {
@@ -163,6 +270,49 @@ public class DashboardPageTest {
 			DashboardPage.clickPostChangeSave(driver);
 			Thread.sleep(2000);
 			sc.close();
+			driver.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// GUI METODA ZA TESTIRANJE FUNKCIONALNOSTI EDITOVANJA POSLEDNJEG POSTA NA SAJTU 
+	
+	public static void editLastPostGUI() {
+		
+		GUImain frame = new GUImain();
+
+		String newPostDescriptionText = (String) JOptionPane.showInputDialog(frame, "Enter description text:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		MainPage.openPage(driver, Config.URL_HOME);
+
+		try {
+			String data;
+
+			ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME);
+
+			data = ExcelUtils.getCellData(1, 2);
+			MainPage.sendKeys(driver, MainPage.USER_NAME, data);
+			Thread.sleep(1000);
+
+			data = ExcelUtils.getCellData(1, 4);
+			MainPage.sendKeys(driver, MainPage.PASSWORD, data);
+			Thread.sleep(1000);
+
+			MainPage.clickLogIn(driver);
+
+			DashboardPage.editPostButton(driver);
+
+			DashboardPage.editPostDescription(driver, newPostDescriptionText);
+			Thread.sleep(2000);
+			DashboardPage.clickPostChangeSave(driver);
+			Thread.sleep(2000);
 			driver.close();
 
 		} catch (Exception e) {

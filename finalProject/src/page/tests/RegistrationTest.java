@@ -3,10 +3,13 @@ package page.tests;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import page.objects.MainPage;
+import start.GUImain;
 import utility.Config;
 import utility.ExcelUtils;
 
@@ -34,7 +37,7 @@ public class RegistrationTest {
 		do {
 			System.out.println("Enter email address ex:xyz@gmail.com");
 			emailaddress = sc.nextLine();
-            // OBEZBEDJIVANJE PRAVILNOG UNOSA EMAIL ADRESE.
+			// OBEZBEDJIVANJE PRAVILNOG UNOSA EMAIL ADRESE.
 			String email_regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 			b = emailaddress.matches(email_regex);
@@ -72,7 +75,64 @@ public class RegistrationTest {
 		sc.close();
 		driver.close();
 	}
+	
+	// GUI METODA ZA TESTIRANJE REGISTRATION FUNKCIONALNOSTI SAJTA
+	
+	public static void registrationGUI() throws Exception {
 
+		ExcelUtils.setExcelFile(Config.Path_TestData + Config.File_TestData, Config.SHEET_NAME);
+		GUImain frame = new GUImain();
+
+		String firstName = (String) JOptionPane.showInputDialog(frame, "Enter first name:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		String lastName = (String) JOptionPane.showInputDialog(frame, "Enter last name:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		String userName = (String) JOptionPane.showInputDialog(frame, "Enter user name:",
+				JOptionPane.INPUT_VALUE_PROPERTY);
+		
+		String emailaddress;
+		boolean b = false;
+		do {
+			emailaddress = (String) JOptionPane.showInputDialog(frame, "Enter email address ex:xyz@gmail.com",
+					JOptionPane.INPUT_VALUE_PROPERTY);
+			// OBEZBEDJIVANJE PRAVILNOG UNOSA EMAIL ADRESE.
+			String email_regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+			b = emailaddress.matches(email_regex);
+		} while (!b);
+
+		String password;
+		boolean bp = false;
+		do {
+			password = (String) JOptionPane.showInputDialog(frame,
+					"Enter password which must contains 6 to 20 characters string with at least one digit, one upper case letter, one lower case letter and one special symbol (“@#$%?!”)",
+					JOptionPane.INPUT_VALUE_PROPERTY);
+			// OBEZBEDJIVANJE PRAVILNOG UNOSA PASSWORD-a.
+			String password_regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%?!]).{6,20})";
+			bp = password.matches(password_regex);
+		} while (!bp);
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		MainPage.openPage(driver, Config.URL_HOME);
+
+		MainPage.sendKeys(driver, MainPage.FIRST_NAME_REG, firstName);
+		Thread.sleep(1000);
+		MainPage.sendKeys(driver, MainPage.LAST_NAME_REG, lastName);
+		Thread.sleep(1000);
+		MainPage.sendKeys(driver, MainPage.USER_NAME_REG, userName);
+		Thread.sleep(1000);
+		MainPage.sendKeys(driver, MainPage.EMAIL_REG, emailaddress);
+		Thread.sleep(1000);
+		MainPage.sendKeys(driver, MainPage.PASSWORD_REG, password);
+		Thread.sleep(1000);
+		MainPage.clickRegister(driver);
+		Thread.sleep(3000);
+		driver.close();
+	}
+	
 	// METODA ZA TESTIRANJE REGISTRATION FUNKCIJE SAJTA UCITAVANJEM PODATAKA ZA
 	// JEDNOG KORISNIKA IZ PRILOZENE EXCEL TABELE
 

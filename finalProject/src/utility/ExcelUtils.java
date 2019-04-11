@@ -20,13 +20,12 @@ public class ExcelUtils {
 	private static HSSFRow Row;
 	// Pomocu ovoga bilo kij podatak pretvaramo u string
 	private static DataFormatter formatter;
-
+	
 	private static HSSFSheet ExcelWSheet;
-
 	public static HSSFSheet getExcelWSheet() {
 		return ExcelWSheet;
 	}
-
+	
 	// Metoda koja nam postavlja excell fajl
 	// i poslato ime worksheeta
 	public static void setExcelFile(String Path, String SheetName) throws Exception {
@@ -53,6 +52,9 @@ public class ExcelUtils {
 	public static String getCellData(int RowNum, int ColNum) throws Exception {
 		try {
 
+			// uzimamo celiju
+			// tako sto uzmemo zadati red
+			// a onda zadatu kolonu
 			Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
 			// Pretvara u string infomarciju iz celije
 			String CellData = formatter.formatCellValue(Cell);
@@ -67,14 +69,18 @@ public class ExcelUtils {
 	public static void setCellData(String Result, int RowNum, int ColNum) throws Exception {
 		try {
 
+			// uzimamo red u koji upisujemo
 			Row = ExcelWSheet.getRow(RowNum);
+
+			// uzimamo celiju u koju zelimo da upisemo
 			Cell = Row.getCell(ColNum, MissingCellPolicy.RETURN_BLANK_AS_NULL);
+
 			// ukoliko je celija prazna ili nepostojeca
 			if (Cell == null) {
-				// kreiramo je na zadatom mestu
+				// kreiramo jen na zadatom mestu
 				Cell = Row.createCell(ColNum);
 
-				// postavljamo vrednost u celiji
+				// postavljamo vrednsot u celiji
 				Cell.setCellValue(Result);
 			} else {
 
@@ -97,8 +103,7 @@ public class ExcelUtils {
 		}
 
 	}
-
-	// Vraca referencu na worksheet
+	//Vraca referencu na worksheet
 	public static HSSFSheet getWorkSheet() {
 		return ExcelWSheet;
 	}
